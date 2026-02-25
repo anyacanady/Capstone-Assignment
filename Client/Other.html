@@ -1,0 +1,367 @@
+<html>
+<body>
+    <h1 align="center"> Other Information</h1>
+    <hr>
+   
+    <style>
+        .inline-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            //This allows for the reference to be duplicated with the add reference button
+            document.getElementById("add_ref_button").addEventListener("click", function () {
+
+                const container = document.getElementById("referencesContainer");
+                const firstGroup = document.querySelector(".reference-group");
+
+                const newGroup = firstGroup.cloneNode(true);
+
+                // Clear values
+                newGroup.querySelectorAll("input").forEach(input => input.value = "");
+                newGroup.querySelectorAll("select").forEach(select => select.value = "");
+
+                container.appendChild(newGroup);
+            });
+            //This deletes one of the references when the delete reference button is clicked
+            document.getElementById("delete_button").addEventListener("click", function () {
+
+                const groups = document.querySelectorAll(".reference-group");
+
+                if (groups.length > 1) {
+                    groups[groups.length - 1].remove();
+                } else {
+                    alert("At least one reference is required.");
+                }
+
+            });
+
+        });
+
+        function Yes() {
+            // Declare variables pulling the Bonded and RBonded variables along with the RBonded label
+            var Bonded = document.getElementById("Bonded");
+            var RBondedDiv = document.getElementById("RBonded");
+            var RBondedLabel = document.getElementById("RBondedLabel");
+
+            // If the selected value is "01", show
+            if (Bonded.value === "01") {
+                RBondedDiv.style.display = "block";
+                RBondedLabel.style.display = "block";
+            } else {
+                // Otherwise, hide
+                BondedLabel.style.display = "none";
+                RBondedSelect.style.display = "none";
+                RBondedSelect.value = "";
+                //Has Yes2 called
+                Yes2();
+            }
+        }
+        //Similar to the prior function just displays out what is below RBonded
+        function Yes2() {
+            var RBonded = document.getElementById("RBonded").value;
+
+            var container = document.getElementById("RBondedContainer");
+            var container2 = document.getElementById("RBondedContainer2");
+            var container3 = document.getElementById("RBondedContainer3");
+
+            if (RBonded === "Yes") {
+                container.classList.remove("hidden");
+                container2.classList.remove("hidden");
+                container3.classList.remove("hidden");
+            } else {
+                container.classList.add("hidden");
+                container2.classList.add("hidden");
+                container3.classList.add("hidden");
+
+                document.getElementById("IfYes").value = "";
+                document.getElementById("Ifmonth").value = "";
+                document.getElementById("Ifyear").value = "";
+            }
+        }
+        function Yes3() {
+            var Employed = document.getElementById("Employed");
+            var PEmployerSelect = document.getElementById("PEmployer");
+            var PEmployerLabel = document.getElementById("PEmployerLabel");
+
+            if (Employed.value === "01") {
+                PEmployerSelect.style.display = "inline-block";
+                PEmployerLabel.style.display = "inline-block";
+            } else {
+                PEmployerSelect.style.display = "none";
+                PEmployerLabel.style.display = "none";
+                PEmployerSelect.value = "";
+            }
+        }
+        function Yes4() {
+            var handling = document.getElementById("handling");
+            var DescribeSelect = document.getElementById("Describe");
+            var DescribeLabel = document.getElementById("DescribeLabel");
+
+            if (handling.value === "01") {
+                DescribeSelect.style.display = "inline-block";
+                DescribeLabel.style.display = "inline-block";
+            } else {
+                DescribeSelect.style.display = "none";
+                DescribeLabel.style.display = "none";
+                DescribeSelect.value = "";
+            }
+        }
+
+    </script>
+    <form action="Background.php" method="POST">
+        //Each one is an job application question with a drop down response
+        Position Applied For: <input type="text" name="position"> <br> <br>
+        How Soon Could You Report to Work?: <input type="text" name="Work"> <br><br>
+        Type of Employement Desired: <select name="Employement" id="Employement">
+            <option value=""></option>
+            <option value="01">Full Time</option>
+            <option value="02">Part-Time</option>
+            <option value="03">Temporary</option>
+        </select>&nbsp;&nbsp; <br><br>
+        Rate of Pay Expected <input type="text" name="Pay"> <br> <br>
+        What Days and Hours if Part Time: <input type="text" name="CPart"> <br> <br>
+        Hours: <input type="text" name="CPart"> <br> <br>
+        Have you Applied Previously:<select name="Applied" id="Applied">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>&nbsp;&nbsp; <br><br>
+        Have you Worked With Us Previously:<select name="PWorked" id="PWorked">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>&nbsp;&nbsp; <br><br>
+        How Did You Come to Apply:<select name="Hear" id="Hear">
+            <option value=""></option>
+            <option value="01">Employee Referral</option>
+            <option value="02">Former Employee</option>
+            <option value="03">Newspaper Ad</option>
+            <option value="04">High School Recuritment</option>
+            <option value="05">College Recuritment</option>
+            <option value="06">Walk-in</option>
+            <option value="07">Other</option>
+        </select>&nbsp;&nbsp; <br><br>
+        <label for="Bonded">Have you Ever Been Bonded:</label>
+        <select id="Bonded" onchange="Yes()">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>
+        <br><br>
+        <div class="inline-group">
+
+            <label for="RBonded" id="RBondedLabel" class="hidden">Have you Ever Refused a Bond:</label>
+            <select name="RBonded" id="RBonded" class="hidden" onchange="Yes2()">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <div id="RBondedContainer" class="hidden">
+                <label for="IfYes">If yes state reason</label>
+                <input type="text" name="IfYes" id="IfYes">
+            </div>
+
+            <div id="RBondedContainer2" class="hidden">
+                <label for="Ifmonth">Date</label>
+                <select name="Ifmonth" id="Ifmonth">
+                    <option value=""></option>
+                    <option value="01">Jan</option>
+                    <option value="02">Feb</option>
+                    <option value="03">Mar</option>
+                    <option value="04">Apr</option>
+                    <option value="05">May</option>
+                    <option value="06">Jun</option>
+                    <option value="07">Jul</option>
+                    <option value="08">Aug</option>
+                    <option value="09">Sep</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                </select> &nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div id="RBondedContainer3" class="hidden">
+                <select name="Ifyear" id="Ifyear">
+                    <option value=""></option>
+                    <option value="1994">1994</option>
+                    <option value="1995">1995</option>
+                    <option value="1996">1996</option>
+                    <option value="1997">1997</option>
+                    <option value="1998">1998</option>
+                    <option value="1999">1999</option>
+                    <option value="2000">2000</option>
+                    <option value="2001">2001</option>
+                    <option value="2002">2002</option>
+                    <option value="2003">2003</option>
+                    <option value="2004">2004</option>
+                    <option value="2005">2005</option>
+                    <option value="2006">2006</option>
+                    <option value="2007">2007</option>
+                    <option value="2008">2008</option>
+                    <option value="2009">2009</option>
+                    <option value="2010">2010</option>
+                    <option value="2011">2011</option>
+                    <option value="2012">2012</option>
+                    <option value="2013">2013</option>
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+
+        Have you ever been discharged or requested to resign from a position:
+        <select name="Resign" id="Resign">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>&nbsp;&nbsp;&nbsp;
+        <br>
+        <br>
+        Are you employed now?
+        <select name="Employed" id="Employed" onchange="Yes3()">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>
+        <label for="PEmployer" id="PEmployerLabel" style="display:none;">If yes can we contact your present employer</label>
+        <select name="PEmployer" id="PEmployer" style="display:none;">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>&nbsp;&nbsp;&nbsp;
+        <br>
+        <br>
+        Have you ever held a position of trust (handling money or confidential material)
+        <select name="handling" id="handling" onchange="Yes4()">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>&nbsp;&nbsp;&nbsp;
+        <label for="Describe" id="DescribeLabel" style="display:none;">if yes describe</label>
+        <input type="text" name="Describe" id="Describe" style="display:none;">
+        <br>
+        <br>
+        Do you have any reason to believe that you would have difficulty meeting this company's work schedule?
+        <select name="Schedule" id="Schedule">
+            <option value=""></option>
+            <option value="01">Yes</option>
+            <option value="02">No</option>
+        </select>&nbsp;&nbsp;&nbsp;
+        <br>
+        <br>
+
+        <hr>
+        <!--This is a heading for the reference section-->
+        <h1 align="center">References</h1>
+        <!--This creates a container that can be copied using javascript-->
+        <div id="referencesContainer">
+            <div class="reference-group">
+                <hr>
+                Name:
+                <input type="text" name="RName">
+                <br>
+                <br>
+                Address:
+                <input type="text" name="RAddress">
+                <br>
+                <br>
+                City:
+                <input type="text" name="RCity">
+                <br>
+                <br>
+                State:
+                <select name="RState">
+                    <option value=""></option>
+                    <option value="01">AL</option>
+                    <option value="02">AK</option>
+                    <option value="03">AZ</option>
+                    <option value="04">AR</option>
+                    <option value="05">CA</option>
+                    <option value="06">CO </option>
+                    <option value="07">CT</option>
+                    <option value="08">DE</option>
+                    <option value="09">FL</option>
+                    <option value="10">GA</option>
+                    <option value="11">HI</option>
+                    <option value="12">ID</option>
+                    <option value="13">IL</option>
+                    <option value="14">IN</option>
+                    <option value="15">IA</option>
+                    <option value="16">KS</option>
+                    <option value="17">KY</option>
+                    <option value="18">LA</option>
+                    <option value="19">ME</option>
+                    <option value="20">MD</option>
+                    <option value="21">MA</option>
+                    <option value="22">MI</option>
+                    <option value="23">MN</option>
+                    <option value="24">MS</option>
+                    <option value="25">MO</option>
+                    <option value="26">MT</option>
+                    <option value="27">NE</option>
+                    <option value="28">NV</option>
+                    <option value="29">NH</option>
+                    <option value="30">NJ</option>
+                    <option value="31">NM</option>
+                    <option value="32">NY</option>
+                    <option value="33">NC</option>
+                    <option value="34">ND</option>
+                    <option value="35">OH</option>
+                    <option value="36">OK</option>
+                    <option value="37">OR</option>
+                    <option value="38">PA</option>
+                    <option value="39">RI</option>
+                    <option value="40">SC</option>
+                    <option value="41">SD</option>
+                    <option value="42">TN</option>
+                    <option value="43">TX</option>
+                    <option value="44">UT</option>
+                    <option value="45">VT</option>
+                    <option value="46">VA</option>
+                    <option value="47">WA</option>
+                    <option value="48">WV</option>
+                    <option value="49">WI</option>
+                    <option value="50">WY</option>
+                </select>
+                Zip Code:
+                <input type="text" name="RZip" size="5" maxlength="5">
+                <br>
+                <br>
+                Telephone number:
+                <input type="text" name="RNumber" size="10" maxlength="10">
+                <br>
+                <br>
+            </div>
+
+        </div>
+        <!--Add Reference, Delete Reference and Submit buttons-->
+        <button type="button" id="add_ref_button">Add Reference</button>
+        <button type="button" id="delete_button">Delete Reference</button>
+        <input type="submit" name="submit_button" formaction="Submit.html">
+
+
+    </form>
+
+
+</body>
+</html>
